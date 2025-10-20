@@ -17,12 +17,11 @@ public class CalculatorUnit {
     }
 
     public int calculate(String input) {
-        Parsed parsedInput = delimeterPolicy.parse(input);
-
-        if (parsedInput.values().isEmpty()) {
+        if (input.isEmpty()) {
             return 0;
         }
 
+        Parsed parsedInput = delimeterPolicy.parse(input);
         String[] values = parsedInput.splitValues();
         tokenValidator.validate(values);
         return operator.operate(values);
