@@ -6,9 +6,11 @@ import calculator.Parsed;
 
 public class CalculatorUnit {
     private static DelimeterPolicy delimeterPolicy = null;
+    private static TokenValidator tokenValidator;
 
     public CalculatorUnit(DelimeterPolicy delimeterPolicy, TokenValidator tokenValidator) {
         this.delimeterPolicy = delimeterPolicy;
+        this.tokenValidator = tokenValidator;
     }
 
     public static int calculate(String input) {
@@ -24,6 +26,7 @@ public class CalculatorUnit {
     }
 
     private static void validate(String[] values) {
+        tokenValidator.validate(values);
     }
 
     private static int add(String[] values) {
