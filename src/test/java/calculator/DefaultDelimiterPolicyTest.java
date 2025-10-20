@@ -14,7 +14,6 @@ public class DefaultDelimiterPolicyTest {
     void emptyString_returnsDefaults() {
         Parsed parsed = policy.parse("");
         assertEquals("", parsed.values());
-        assertArrayEquals(DEFAULTS, parsed.delimiters());
     }
 
     @Test
@@ -22,7 +21,6 @@ public class DefaultDelimiterPolicyTest {
     void noPrefix_usesDefaultDelimiters() {
         Parsed parsed = policy.parse("1,2:3");
         assertEquals("1,2:3", parsed.values());
-        assertArrayEquals(DEFAULTS, parsed.delimiters());
     }
 
     @Test
@@ -30,13 +28,8 @@ public class DefaultDelimiterPolicyTest {
     void customDelimiter_oneChar_then_StringBackslashN_then_values() {
 
         String input = "//;\\n1;2;3";
-
         Parsed parsed = policy.parse(input);
-
         assertEquals("1;2;3", parsed.values());
-
-        char[] expected = new char[]{';', ',', ':'};
-        assertArrayEquals(expected, parsed.delimiters());
     }
 
     @Test

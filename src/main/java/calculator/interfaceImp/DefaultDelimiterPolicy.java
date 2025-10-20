@@ -11,7 +11,7 @@ public class DefaultDelimiterPolicy implements DelimeterPolicy {
     @Override
     public Parsed parse(String input) {
         if (input == null || input.isEmpty()) {
-            return new Parsed("", DEFAULT_DELIMITERS);
+            return new Parsed("", buildRegex(DEFAULT_DELIMITERS));
         }
 
         if (input.startsWith(PREFIX)) {
@@ -25,22 +25,24 @@ public class DefaultDelimiterPolicy implements DelimeterPolicy {
                 throw new IllegalArgumentException("커스텀 구분자는 한 글자여야 합니다.");
             }
 
-            char custom = customDelimiter.charAt(0);
-            char[] customDelimiters = combineDelimiters(custom, DEFAULT_DELIMITERS);
+            char[] customDelimiters = new char[]{ customDelimiter.charAt(0), ',', ':' };
 
             String valuesPart = input.substring(delimiterEndIndex + SUFFIX.length());
-            return new Parsed(valuesPart, customDelimiters);
+            return new Parsed(valuesPart, buildRegex(customDelimiters));
         }
 
-        return new Parsed(input, DEFAULT_DELIMITERS);
+        return new Parsed(input, buildRegex(DEFAULT_DELIMITERS));
 
     }
 
-    private char[] combineDelimiters(char custom, char[] defaults) {
-        char[] result = new char[defaults.length + 1];
-        result[0] = custom;
-        System.arraycopy(defaults, 0, result, 1, defaults.length);
-        return result;
+    private String buildRegex(char[] delimiters) {
+        StringBuilder sb = new StringBuilder("[");
+        for (char d : delimiters) {
+            if ("\\.^$|?*+()[]{}".indexOf(d) >= 0) sb.append('\\');
+            sb.append(d);
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 
