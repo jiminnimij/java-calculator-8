@@ -17,30 +17,14 @@ public class CalculatorUnit {
     }
 
     public int calculate(String input) {
-        Parsed parsedInput = parse(input);
+        Parsed parsedInput = delimeterPolicy.parse(input);
 
         if (parsedInput.values().isEmpty()) {
             return 0;
         }
 
-        String[] values = splitValues(parsedInput);
-        validate(values);
-        return add(values);
-    }
-
-    private Parsed parse(String input) {
-        return delimeterPolicy.parse(input);
-    }
-
-    private String[] splitValues(Parsed parsed) {
-        return parsed.splitValues();
-    }
-
-    private void validate(String[] values) {
+        String[] values = parsedInput.splitValues();
         tokenValidator.validate(values);
-    }
-
-    private int add(String[] values) {
         return operator.operate(values);
     }
 }
