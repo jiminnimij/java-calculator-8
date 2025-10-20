@@ -1,35 +1,46 @@
 package calculator.unit;
 
 import calculator.calculatorInterface.DelimeterPolicy;
+import calculator.calculatorInterface.Operator;
 import calculator.calculatorInterface.TokenValidator;
 import calculator.Parsed;
 
 public class CalculatorUnit {
-    private static DelimeterPolicy delimeterPolicy = null;
-    private static TokenValidator tokenValidator;
+    private final DelimeterPolicy delimeterPolicy;
+    private final TokenValidator tokenValidator;
+    private final Operator operator;
 
-    public CalculatorUnit(DelimeterPolicy delimeterPolicy, TokenValidator tokenValidator) {
+    public CalculatorUnit(DelimeterPolicy delimeterPolicy, TokenValidator tokenValidator, Operator operator) {
         this.delimeterPolicy = delimeterPolicy;
         this.tokenValidator = tokenValidator;
+        this.operator = operator;
     }
 
-    public static int calculate(String input) {
-        return 0;
+    public int calculate(String input) {
+        Parsed parsedInput = parse(input);
+
+        if (parsedInput.values().isEmpty()) {
+            return 0;
+        }
+
+        String[] values = splitValues(parsedInput);
+        validate(values);
+        return add(values);
     }
 
-    private static Parsed parse(String input) {
+    private Parsed parse(String input) {
         return delimeterPolicy.parse(input);
     }
 
-    private static String[] splitValues(Parsed parsed) {
+    private String[] splitValues(Parsed parsed) {
         return parsed.splitValues();
     }
 
-    private static void validate(String[] values) {
+    private void validate(String[] values) {
         tokenValidator.validate(values);
     }
 
-    private static int add(String[] values) {
-        return 0;
+    private int add(String[] values) {
+        return operator.operate(values);
     }
 }
