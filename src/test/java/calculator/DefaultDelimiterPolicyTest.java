@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DefaultDelimterPolicyTest {
+public class DefaultDelimiterPolicyTest {
     private final DefaultDelimiterPolicy policy = new DefaultDelimiterPolicy();
     private static final char[] DEFAULTS = DefaultDelimiterPolicy.DEFAULT_DELIMITERS;
 
