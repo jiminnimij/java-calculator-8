@@ -20,7 +20,7 @@ public class CalculatorUnit {
     }
 
     private static String[] splitValues(Parsed parsed) {
-        return null;
+        return parsed.splitValues();
     }
 
     private static void validate(String[] values) {
